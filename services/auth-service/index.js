@@ -7,7 +7,7 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 app.get('/auth/github', (req, res) => {
     const url = `https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&scope=user:email`;
@@ -47,6 +47,17 @@ app.get('/auth/github/callback', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+});
+
+const blacklist = [];
+
+app.post('/auth/logout', (req, res) => {
+    const token = req.headers.authorization?.split(" ")[1];
+    if (token) {
+        blacklist.push(token);
+        return res.json({ message: "Logout berhasil, token telah di-blacklist" });
+    }
+    res.status(400).json({ message: "Token tidak ditemukan" });
 });
 
 app.listen(PORT, () => {
