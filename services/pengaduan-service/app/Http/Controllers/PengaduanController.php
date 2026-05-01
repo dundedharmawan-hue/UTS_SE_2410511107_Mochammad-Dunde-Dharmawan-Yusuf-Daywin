@@ -27,6 +27,35 @@ class PengaduanController extends Controller
         ], 201);
     }
 
+    public function update(Request $request, $id)
+    {
+        $pengaduan = Pengaduan::find($id);
+
+        if (!$pengaduan) {
+            return response()->json(['message' => 'Laporan tidak ditemukan'], 404);
+        }
+
+        $pengaduan->update($request->all());
+
+        return response()->json([
+            'message' => 'Laporan berhasil diperbarui!',
+            'data' => $pengaduan
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $pengaduan = Pengaduan::find($id);
+
+        if (!$pengaduan) {
+            return response()->json(['message' => 'Laporan tidak ditemukan'], 404);
+        }
+
+        $pengaduan->delete();
+
+        return response()->json(['message' => 'Laporan berhasil dihapus']);
+    }
+
     public function index()
     {
         return response()->json(Pengaduan::all());

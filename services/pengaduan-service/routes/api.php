@@ -10,3 +10,5 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/pengaduan', [PengaduanController::class, 'index']);
 Route::post('/pengaduan', [PengaduanController::class, 'store']);
+Route::put('/pengaduan/{id}', [PengaduanController::class, 'update']);
+Route::delete('/pengaduan/{id}', [PengaduanController::class, 'destroy']);
